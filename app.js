@@ -18,20 +18,36 @@ const io = socketio(server);
 server.listen(PORT);
 console.log("Server listening at " + PORT);
 
+//====================================================================================================
+
+let newX = 0, newY = 0, startX = 0, startY = 0, cardLastPositionX = 0, cardLastPositionY = 0;
+
+
 io.sockets.on('connection', (sock) => {
 
-    sock.on('btnpress', () => {
-        // console.log("Button pressed");
-        io.emit('jumpVideo');
+    // io.emit('updateAllClients', {newX, newY, startX, startY});
+    io.emit('updateAllClientsWhenRefreshed', {cardLastPositionX, cardLastPositionY});
+        
+
+
+    sock.on('clientMouseDown', (data) =>{
+        startX = data.startX;
+        startY = data.startY;
     });
 
-    sock.on('btnpress2', () => {
-        // console.log("Button 2 pressed");
-        io.emit('toggleText');
+    sock.on('clientMouseMove', (data) =>{
+        startX = data.startX;
+        startY = data.startY;
+        newX = data.newX;
+        newY = data.newY;
+
+        io.emit('updateAllClients', {newX, newY, startX, startY});
     });
 
-    sock.on('checkConnection', ()=>{
-        io.emit('showText');
+    sock.on('clientMouseUp', (data) => {
+        cardLastPositionX = data.cardLastPositionX;
+        cardLastPositionY = data.cardLastPositionY;
     });
+
 
 });
