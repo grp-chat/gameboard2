@@ -21,6 +21,15 @@ console.log("Server listening at " + PORT);
 //====================================================================================================
 
 
+const arrayA = Array(10).fill("A");
+const arrayB = Array(5).fill("B");
+const arrayC = Array(6).fill("C");
+console.log([
+    ...arrayA, 
+    ...arrayB,
+    ...arrayC
+]);
+
 
 let newX = 0, newY = 0, startX = 0, startY = 0, divId = 0;
 
@@ -60,7 +69,6 @@ class Card {
       this.cards = cards;
     };
   }
-  
   
   const deck = new Deck();
 
