@@ -20,19 +20,67 @@ console.log("Server listening at " + PORT);
 
 //====================================================================================================
 
-let newX = 0, newY = 0, startX = 0, startY = 0, cardLastPositionX = 0, cardLastPositionY = 0;
+
+
+let newX = 0, newY = 0, startX = 0, startY = 0, divId = 0;
+
+let ELEMENT_LIST =[];
+
+const ALPHABETS = ["D","E","F","G","H"];
+let positionIncrease = 100;
+let runningNumber = 1;
+
+class Card {
+    constructor(letter) {
+        this.letter = letter;
+        this.element = "div";
+        this.classList = "card";
+        this.startX = 0;
+        this.startY = 0;
+        this.newX = 0;
+        this.newY = 0;
+        this.cardLastPositionX = 0;
+        this.cardLastPositionY = positionIncrease;
+        this.id = runningNumber;
+        runningNumber++;
+        positionIncrease += 80;
+        ELEMENT_LIST.push(this);
+    }
+  };
+
+  function freshDeck() {
+    return ALPHABETS.map(alphabets => {
+      const card = new Card(alphabets);
+      return card;
+    });
+  }
+
+  class Deck {
+    constructor(cards = freshDeck()) {
+      this.cards = cards;
+    };
+  }
+  
+  
+  const deck = new Deck();
 
 
 io.sockets.on('connection', (sock) => {
 
-    // io.emit('updateAllClients', {newX, newY, startX, startY});
-    io.emit('updateAllClientsWhenRefreshed', {cardLastPositionX, cardLastPositionY});
+
+    ELEMENT_LIST.forEach(element => {
+
+        io.emit('updateAllClientsWhenRefreshed', element);
+    });
+
+    
         
 
 
     sock.on('clientMouseDown', (data) =>{
         startX = data.startX;
         startY = data.startY;
+        divId = data.divId;
     });
 
     sock.on('clientMouseMove', (data) =>{
@@ -40,13 +88,21 @@ io.sockets.on('connection', (sock) => {
         startY = data.startY;
         newX = data.newX;
         newY = data.newY;
+        
 
-        io.emit('updateAllClients', {newX, newY, startX, startY});
+        io.emit('updateAllClients', {newX, newY, startX, startY, divId}); //dont remove divId, its from mousedown
     });
 
     sock.on('clientMouseUp', (data) => {
-        cardLastPositionX = data.cardLastPositionX;
-        cardLastPositionY = data.cardLastPositionY;
+        
+
+        ELEMENT_LIST.forEach(element => {
+            
+            if (element.id === parseInt(data.divId)) {
+                element.cardLastPositionX = data.cardLastPositionX;
+                element.cardLastPositionY = data.cardLastPositionY;
+            }
+        });
     });
 
 
