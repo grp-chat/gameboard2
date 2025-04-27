@@ -104,6 +104,12 @@ function shuffle(array) {
 let newX = 0, newY = 0, startX = 0, startY = 0, divId = 0;
 
 let ELEMENT_LIST =[];
+fs.readFile('savegame.txt', function(err, data){
+    if(err) throw err;
+    ELEMENT_LIST = JSON.parse(data);
+    
+});
+
 // const ALPHABETS = ["D","E","F","G","H"];
 // const PACK = ["I", "J", "K", "L", "M", "N"];
 // let positionIncrease = 100;
@@ -201,6 +207,14 @@ io.sockets.on('connection', (sock) => {
             if (element.id === parseInt(data.divId)) {
                 element.cardLastPositionX = data.cardLastPositionX;
                 element.cardLastPositionY = data.cardLastPositionY;
+            }
+        });
+
+        const saveGame = JSON.stringify(ELEMENT_LIST);
+        fs.writeFile('savegame.txt', saveGame, err => {
+            if(err) {
+                console.err;
+                return;
             }
         });
     });

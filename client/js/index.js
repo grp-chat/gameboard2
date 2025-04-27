@@ -28,8 +28,7 @@ function createCardDivElement(obj) {
 
 
 function mouseDown(e){
-  // alert(e.target.id);
-  console.log(e);
+  
     startX = e.clientX
     startY = e.clientY
     const divId = e.target.id;
@@ -85,6 +84,7 @@ function mouseUp(e){
     const cardLastPositionY = card.offsetTop;
     const cardLastPositionX = card.offsetLeft;
     sock.emit('clientMouseUp', {cardLastPositionX, cardLastPositionY, divId});
+
 }
 function touchEnd(e){
   // document.body.style.touchAction = "unset";
