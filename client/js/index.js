@@ -6,8 +6,13 @@ const button = document.getElementById("add");
 
 button.addEventListener('click', (e) => {
   // e.preventDefault();
-  sock.emit('createNewCards');
+    sock.emit('createNewCards');
 });
+
+// button.addEventListener('touchstart', e => {
+//   // document.body.style.touchAction = "unset";
+//   sock.emit('createNewCards');
+// });
 
 
 function createCardDivElement(obj) {
@@ -18,11 +23,13 @@ function createCardDivElement(obj) {
   container.appendChild(ele);
   ele.style.top = obj.cardLastPositionY + 'px';
   ele.addEventListener('mousedown', mouseDown);
+  ele.addEventListener('touchstart', touchStart);
 }
 
 
 function mouseDown(e){
   // alert(e.target.id);
+  console.log(e);
     startX = e.clientX
     startY = e.clientY
     const divId = e.target.id;
@@ -31,9 +38,20 @@ function mouseDown(e){
     document.addEventListener('mouseup', mouseUp)
 
     sock.emit('clientMouseDown',{startX, startY, divId});
-
-
 }
+function touchStart(e){
+    // e.preventdefault();
+    // document.body.style.touchAction = "none";
+    startX = e.targetTouches[0].pageX;
+    startY = e.targetTouches[0].pageY;
+    const divId = e.target.id;
+
+    document.addEventListener('touchmove', touchMove);
+    document.addEventListener('touchend', touchEnd);
+
+    sock.emit('clientMouseDown',{startX, startY, divId});
+}
+
 
 function mouseMove(e){
     newX = startX - e.clientX 
@@ -42,16 +60,35 @@ function mouseMove(e){
     startX = e.clientX
     startY = e.clientY
 
-    // card.style.top = (card.offsetTop - newY) + 'px'
-    // card.style.left = (card.offsetLeft - newX) + 'px'
+    sock.emit('clientMouseMove',{startX, startY, newX, newY});
 
-
+}
+function touchMove(e){
+  
+    newX = startX - e.targetTouches[0].pageX;
+    newY = startY - e.targetTouches[0].pageY;
+    
+  
+    startX = e.targetTouches[0].pageX;
+    startY = e.targetTouches[0].pageY;
+ 
     sock.emit('clientMouseMove',{startX, startY, newX, newY});
 
 }
 
 function mouseUp(e){
     document.removeEventListener('mousemove', mouseMove)
+
+    const divId = e.target.id;
+
+    const card = document.getElementById(divId);
+    const cardLastPositionY = card.offsetTop;
+    const cardLastPositionX = card.offsetLeft;
+    sock.emit('clientMouseUp', {cardLastPositionX, cardLastPositionY, divId});
+}
+function touchEnd(e){
+  // document.body.style.touchAction = "unset";
+    document.removeEventListener('touchmove', touchMove)
 
     const divId = e.target.id;
 
