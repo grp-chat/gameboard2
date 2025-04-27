@@ -198,6 +198,5 @@ sock.on('removeDomOnOtherClient', data => {
 if (!isAndroid) {
   window.setTimeout( function() {
     window.location.reload();
-    alert("refresh");
-  }, 60000);
+  }, 30000);
 }
