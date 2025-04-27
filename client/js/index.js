@@ -194,3 +194,10 @@ sock.on('removeDomOnOtherClient', data => {
   if (card == null) return;
   card.remove();
 });
+
+if (!isAndroid) {
+  window.setTimeout( function() {
+    window.location.reload();
+    alert("refresh");
+  }, 60000);
+}
