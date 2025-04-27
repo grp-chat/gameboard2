@@ -1,12 +1,21 @@
 const sock = io();
 
+let binTriggered = false;
+
+var ua = navigator.userAgent.toLowerCase();
+var isAndroid = ua.indexOf("android") > -1;
+
 const container = document.getElementById("container");
 
 const button = document.getElementById("add");
 
 button.addEventListener('click', (e) => {
   // e.preventDefault();
+  if (isAndroid) {
     sock.emit('createNewCards');
+  }
+  
+    
 });
 
 // button.addEventListener('touchstart', e => {
@@ -16,12 +25,14 @@ button.addEventListener('click', (e) => {
 
 
 function createCardDivElement(obj) {
+  
   const ele =  document.createElement("div");
   ele.innerHTML = obj.letter;
   ele.classList = obj.classList;
   ele.id = obj.id;
   container.appendChild(ele);
   ele.style.top = obj.cardLastPositionY + 'px';
+  if (!isAndroid) return;
   ele.addEventListener('mousedown', mouseDown);
   ele.addEventListener('touchstart', touchStart);
 }
@@ -59,6 +70,17 @@ function mouseMove(e){
     startX = e.clientX
     startY = e.clientY
 
+    // console.log('id:' + e.target.id + ', x:' + e.clientX + ', y:' + e.clientY );
+
+    const wasteBin = document.getElementById("bin");
+    if (e.clientX > 1200 && e.clientY > 40) {
+      wasteBin.classList.add("highlight");
+      binTriggered = true;
+    }else {
+      wasteBin.classList.remove("highlight");
+      binTriggered = false;
+    }
+
     sock.emit('clientMouseMove',{startX, startY, newX, newY});
 
 }
@@ -70,6 +92,15 @@ function touchMove(e){
   
     startX = e.targetTouches[0].pageX;
     startY = e.targetTouches[0].pageY;
+
+    const wasteBin = document.getElementById("bin");
+    if (e.targetTouches[0].pageX > 1200 && e.targetTouches[0].pageY > 40) {
+      wasteBin.classList.add("highlight");
+      binTriggered = true;
+    }else {
+      wasteBin.classList.remove("highlight");
+      binTriggered = false;
+    }
  
     sock.emit('clientMouseMove',{startX, startY, newX, newY});
 
@@ -83,6 +114,16 @@ function mouseUp(e){
     const card = document.getElementById(divId);
     const cardLastPositionY = card.offsetTop;
     const cardLastPositionX = card.offsetLeft;
+
+    if (binTriggered) {
+      const wasteBin = document.getElementById("bin");
+      card.remove();
+      wasteBin.classList.remove("highlight");
+      binTriggered = false;
+      sock.emit('removeDom', divId);
+      return;
+    }
+
     sock.emit('clientMouseUp', {cardLastPositionX, cardLastPositionY, divId});
 
 }
@@ -95,6 +136,16 @@ function touchEnd(e){
     const card = document.getElementById(divId);
     const cardLastPositionY = card.offsetTop;
     const cardLastPositionX = card.offsetLeft;
+
+    if (binTriggered) {
+      const wasteBin = document.getElementById("bin");
+      card.remove();
+      wasteBin.classList.remove("highlight");
+      binTriggered = false;
+      sock.emit('removeDom', divId);
+      return;
+    }
+
     sock.emit('clientMouseUp', {cardLastPositionX, cardLastPositionY, divId});
 }
 
@@ -132,4 +183,14 @@ sock.on('updateAllClientsWhenRefreshed', (data) => {
 
     
 
+});
+
+sock.on('updateButton', data => {
+  button.innerHTML = data;
+});
+
+sock.on('removeDomOnOtherClient', data => {
+  const card =  document.getElementById(data);
+  if (card == null) return;
+  card.remove();
 });

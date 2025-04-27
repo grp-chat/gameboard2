@@ -21,32 +21,32 @@ console.log("Server listening at " + PORT);
 //====================================================================================================
 // const Card = require('./card');
 
-const A = Array(9).fill("A");
-const B = Array(2).fill("B");
-const C = Array(2).fill("C");
+const A = Array(18).fill("A");
+const B = Array(1).fill("B");
+const C = Array(5).fill("C");
 const D = Array(4).fill("D");
-const E = Array(12).fill("E");
-const F = Array(2).fill("F");
-const G = Array(3).fill("G");
-const H = Array(2).fill("H");
-const I = Array(9).fill("I");
-const J = Array(1).fill("J");
-const K = Array(1).fill("K");
-const L = Array(4).fill("L");
-const M = Array(2).fill("M");
-const N = Array(6).fill("N");
-const O = Array(8).fill("O");
-const P = Array(2).fill("P");
-const Q = Array(1).fill("Q");
-const R = Array(6).fill("R");
-const S = Array(4).fill("S");
-const T = Array(6).fill("T");
-const U = Array(4).fill("U");
-const V = Array(2).fill("V");
-const W = Array(2).fill("W");
+const E = Array(20).fill("E");
+const F = Array(1).fill("F");
+const G = Array(9).fill("G");
+const H = Array(13).fill("H");
+const I = Array(21).fill("I");
+const J = Array(5).fill("J");
+const K = Array(4).fill("K");
+const L = Array(8).fill("L");
+const M = Array(5).fill("M");
+const N = Array(21).fill("N");
+const O = Array(18).fill("O");
+const P = Array(3).fill("P");
+const Q = Array(6).fill("Q");
+const R = Array(8).fill("R");
+const S = Array(1).fill("S");
+const T = Array(9).fill("T");
+const U = Array(16).fill("U");
+const V = Array(1).fill("V");
+const W = Array(6).fill("W");
 const X = Array(6).fill("X");
-const Y = Array(6).fill("Y");
-const Z = Array(1).fill("Z");
+const Y = Array(20).fill("Y");
+const Z = Array(5).fill("Z");
 
 const CHARACTER_SET = [
     ...A, 
@@ -95,11 +95,14 @@ function shuffle(array) {
 
   shuffle(CHARACTER_SET);
 
-  const packSize = 8;
+  const packSize = 10;
 
   let charecter_setIndex = 0;
 
 
+
+
+let charactersRemaining = CHARACTER_SET.length - charecter_setIndex;
 
 let newX = 0, newY = 0, startX = 0, startY = 0, divId = 0;
 
@@ -182,7 +185,9 @@ class Card {
 
 io.sockets.on('connection', (sock) => {
 
+    charactersRemaining = CHARACTER_SET.length - charecter_setIndex;
     io.emit('updateAllClientsWhenRefreshed', ELEMENT_LIST);
+    io.emit('updateButton', charactersRemaining);
 
     sock.on('clientMouseDown', (data) =>{
         startX = data.startX;
@@ -224,6 +229,20 @@ io.sockets.on('connection', (sock) => {
 
         const pack = new Pack();
         io.emit('updateAllClientsWhenRefreshed', ELEMENT_LIST);
+        
+
+        charactersRemaining = CHARACTER_SET.length - charecter_setIndex;
+        io.emit('updateButton', charactersRemaining);
+    });
+
+    sock.on('removeDom', data => {
+        ELEMENT_LIST.forEach( (item, index, object) => {
+            if (item.id == data) {
+                object.splice(index, 1);
+            };
+        });
+        const divId = data;
+        io.emit('removeDomOnOtherClient', divId);
     });
 
     sock.on("test", data => {console.log(data)});

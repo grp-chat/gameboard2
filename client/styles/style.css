@@ -16,7 +16,8 @@ body{
 .card{
   width: 30px;
   height: 30px;
-  background-color: #AFDA9F;
+  /* background-color: #AFDA9F; */
+  background-color: dodgerblue;
   color: white;
   border-radius: 5px;
   cursor: pointer;
@@ -26,6 +27,27 @@ body{
   align-items: center;
   justify-content: center;
   user-select: none;
+}
+
+.bin{
+  width: 30px;
+  height: 30px;
+  background-color: red;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  position: fixed;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  top:20px;
+  left: 1200px;
+}
+
+.highlight{
+  background-color: yellow;
 }
 
 .button{
