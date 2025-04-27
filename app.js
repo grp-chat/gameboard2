@@ -19,23 +19,23 @@ server.listen(PORT);
 console.log("Server listening at " + PORT);
 
 //====================================================================================================
-
+// const Card = require('./card');
 
 const arrayA = Array(10).fill("A");
 const arrayB = Array(5).fill("B");
 const arrayC = Array(6).fill("C");
-console.log([
-    ...arrayA, 
-    ...arrayB,
-    ...arrayC
-]);
+// console.log([
+//     ...arrayA, 
+//     ...arrayB,
+//     ...arrayC
+// ]);
 
 
 let newX = 0, newY = 0, startX = 0, startY = 0, divId = 0;
 
 let ELEMENT_LIST =[];
-
 const ALPHABETS = ["D","E","F","G","H"];
+const PACK = ["I", "J", "K", "L", "M", "N"];
 let positionIncrease = 100;
 let runningNumber = 1;
 
@@ -44,10 +44,6 @@ class Card {
         this.letter = letter;
         this.element = "div";
         this.classList = "card";
-        this.startX = 0;
-        this.startY = 0;
-        this.newX = 0;
-        this.newY = 0;
         this.cardLastPositionX = 0;
         this.cardLastPositionY = positionIncrease;
         this.id = runningNumber;
@@ -57,6 +53,12 @@ class Card {
     }
   };
 
+  function freshPack() {
+    return PACK.map(alphabets => {
+      const card = new Card(alphabets);
+      return card;
+    });
+  }
   function freshDeck() {
     return ALPHABETS.map(alphabets => {
       const card = new Card(alphabets);
@@ -69,21 +71,22 @@ class Card {
       this.cards = cards;
     };
   }
-  
-  const deck = new Deck();
+  class Pack {
+    constructor(cards = freshPack()) {
+      this.cards = cards;
+    };
+  }
+
+// const deck = new Deck();
 
 
 io.sockets.on('connection', (sock) => {
 
-
-    ELEMENT_LIST.forEach(element => {
-
-        io.emit('updateAllClientsWhenRefreshed', element);
-    });
-
-    
-        
-
+    // console.log(ELEMENT_LIST);
+    io.emit('updateAllClientsWhenRefreshed', ELEMENT_LIST);
+    // ELEMENT_LIST.forEach(element => {
+    //     io.emit('updateAllClientsWhenRefreshed', element);
+    // });
 
     sock.on('clientMouseDown', (data) =>{
         startX = data.startX;
@@ -111,6 +114,16 @@ io.sockets.on('connection', (sock) => {
                 element.cardLastPositionY = data.cardLastPositionY;
             }
         });
+    });
+
+    sock.on('createNewCards', ()=> {
+
+        const pack = new Pack();
+        // console.log(pack.cards);
+        const card = new Card("Z");
+        io.emit('updateAllClientsWhenRefreshed', ELEMENT_LIST);
+        
+
     });
 
 

@@ -2,6 +2,13 @@ const sock = io();
 
 const container = document.getElementById("container");
 
+const button = document.getElementById("add");
+
+button.addEventListener('click', (e) => {
+  // e.preventDefault();
+  sock.emit('createNewCards');
+});
+
 
 function createCardDivElement(obj) {
   const ele =  document.createElement("div");
@@ -52,9 +59,6 @@ function mouseUp(e){
     const cardLastPositionY = card.offsetTop;
     const cardLastPositionX = card.offsetLeft;
     sock.emit('clientMouseUp', {cardLastPositionX, cardLastPositionY, divId});
-
-    console.log(divId);
-    console.log(cardLastPositionX);
 }
 
 
@@ -69,12 +73,26 @@ sock.on('updateAllClients', (data)=> {
 
 sock.on('updateAllClientsWhenRefreshed', (data) => {
 
-  if (document.getElementById(data.id) != null) {return};
-    
-  createCardDivElement(data);
+  
+  data.forEach(card => {
+    if (document.getElementById(card.id) != null) {return};
+    createCardDivElement(card);
+    const domCard = document.getElementById(card.id);
+    domCard.style.top = (card.cardLastPositionY) + 'px';
+    domCard.style.left = (card.cardLastPositionX) + 'px';
 
-    const card = document.getElementById(data.id);
-    card.style.top = (data.cardLastPositionY) + 'px';
-    card.style.left = (data.cardLastPositionX) + 'px';
+
+  });
+
+  // sock.on("updateAllClientsWhenRefreshed", data => {
+  //   if (document.getElementById(card.id) != null) {return};
+
+  // });
+
+  
+    
+  
+
+    
 
 });
