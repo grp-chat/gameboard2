@@ -148,6 +148,7 @@ class Card {
     const PACK = [];
     if (charecter_setIndex > CHARACTER_SET.length) {charecter_setIndex = 0};
     for (let i = 0; i < packSize; i++) {
+        if (CHARACTER_SET[charecter_setIndex] == undefined) {charecter_setIndex = 0};
         PACK.push(CHARACTER_SET[charecter_setIndex]);
         charecter_setIndex++;
     }
