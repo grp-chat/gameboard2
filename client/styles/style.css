@@ -1,7 +1,7 @@
 body{
   padding: 0;
   margin: 0;
-  touch-action: none;
+  /* touch-action: none; */
 }
 
 #container{
@@ -44,6 +44,24 @@ body{
   user-select: none;
   top:20px;
   left: 1200px;
+}
+
+.refresh{
+  width: 30px;
+  height: 30px;
+  background-color: purple;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  position: fixed;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  top:20px;
+  left: 1000px;
+  visibility: hidden;
 }
 
 .highlight{
