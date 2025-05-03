@@ -9,12 +9,7 @@ const promptLogin = () => {
 };
 promptLogin();
 
-
-
-
-
-
-
+//-----------------------------------------------------------------------------------------------------------
 let binTriggered = false;
 
 var ua = navigator.userAgent.toLowerCase();
@@ -25,6 +20,7 @@ const container = document.getElementById("container");
 const button = document.getElementById("add");
 
 if (isAndroid) { document.body.style.touchAction = "none" };
+
 
 button.addEventListener('click', (e) => {
   // e.preventDefault();
@@ -37,7 +33,6 @@ button.addEventListener('click', (e) => {
 
 function createCardDivElement(obj) {
 
-  console.log("here")
   const ele = document.createElement("div");
   ele.innerHTML = obj.letter;
   ele.classList = obj.classList;
@@ -162,6 +157,8 @@ function touchEnd(e) {
   sock.emit('clientMouseUp', { cardLastPositionX, cardLastPositionY, divId });
 }
 
+
+
 sock.on('response', (data) => {
   loginName = data;
   const refreshButton = document.getElementById("refresh");
@@ -186,7 +183,7 @@ sock.on('updateAllClientsWhenRefreshed', (data) => {
 
   data.forEach(card => {
     if (document.getElementById(card.id) != null) { return };
-    createCardDivElement(card, loginName);
+    createCardDivElement(card);
     const domCard = document.getElementById(card.id);
     domCard.style.top = (card.cardLastPositionY) + 'px';
     domCard.style.left = (card.cardLastPositionX) + 'px';
