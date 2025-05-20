@@ -18,9 +18,21 @@ var isAndroid = ua.indexOf("android") > -1;
 const container = document.getElementById("container");
 
 const button = document.getElementById("add");
+const restart = document.getElementById("restart");
 
 if (isAndroid) { document.body.style.touchAction = "none" };
 
+restart.addEventListener('click', () =>{
+  if (loginName == "teacher") {
+    if (confirm('Confirm restart?')) {
+      // Save it!
+      sock.emit('clearAndShuffle');
+    } else {
+      // Do nothing!
+      alert("Action cancelled.")
+    }
+  }
+});
 
 button.addEventListener('click', (e) => {
   // e.preventDefault();
@@ -30,6 +42,8 @@ button.addEventListener('click', (e) => {
 
 });
 
+// const glass = document.getElementById("glass");
+// glass.addEventListener('mousedown', mouseDown);
 
 function createCardDivElement(obj) {
 
@@ -43,10 +57,45 @@ function createCardDivElement(obj) {
   ele.addEventListener('touchstart', touchStart);
 }
 
+function createGlassDiv(obj) {
+  const glass = document.createElement("div");
+  glass.id = obj.glassId;
+  glass.classList = "glass";
+  container.appendChild(glass);
+  glass.style.top = '60px';
+  glass.addEventListener('mousedown', mouseDown);
+};
+
+function appendInsideToGlass(obj) {
+
+  const glassDiv = document.getElementById(obj.glassId);
+  const glassCovers = glassDiv.getElementsByClassName("glassCover");
+
+  if (glassCovers.length != 0) {
+    const glassCover = glassDiv.getElementsByClassName("glassCover");
+    glassCover[0].parentNode.removeChild(glassCover[0]);
+  };
+
+  obj.nameStr.forEach(letter => {
+    const inside = document.createElement("div");
+    inside.innerHTML = letter;
+    inside.classList = "inside";
+    glassDiv.appendChild(inside);
+  });
+
+  const glassCover = document.createElement("div");
+  glassCover.classList = "glassCover";
+  glassCover.id = obj.glassId;
+  glassCover.addEventListener('mousedown', mouseDown);
+  glassDiv.appendChild(glassCover);
+  
+};
+
 
 function mouseDown(e) {
 
   if(loginName!=="teacher") {return};
+  // console.log("mouse down" + e.target.id);
 
   startX = e.clientX
   startY = e.clientY
@@ -179,15 +228,86 @@ sock.on('updateAllClients', (data) => {
 
 });
 
+sock.on('renderGlassAndInsides', (ELEMENT_LIST) => {
+
+  ELEMENT_LIST.forEach(element => {
+    
+    if (document.getElementById(element.glassId) != null) { return };
+
+    createGlassDiv(element);
+    appendInsideToGlass(element);
+    const domGlass = document.getElementById(element.glassId);
+    domGlass.style.top = (element.cardLastPositionY) + 'px';
+    domGlass.style.left = (element.cardLastPositionX) + 'px';
+    
+
+    // if (document.getElementById(element.glassId) == null) {
+       
+      
+      
+    // } else if(document.getElementById(element.glassId) != null) {
+    //   const glassDiv = document.getElementById(element.glassId);
+    //   const nodesArr = Array.prototype.slice.call(glassDiv.getElementsByTagName("*"),0);
+      
+    // };
+    
+    // domGlass.style.top = (card.cardLastPositionY) + 'px';
+    // domGlass.style.left = (card.cardLastPositionX) + 'px';
+  });
+
+  
+  
+
+  
+});
+sock.on('renderGlassAndInsides2', (ELEMENT_LIST) => {
+
+  ELEMENT_LIST.forEach(element => {
+    
+    // if (document.getElementById(element.id) != null) { return };
+    var nodeExist = false;
+
+    if (document.getElementById(element.glassId) == null) {
+      createGlassDiv(element); 
+      appendInsideToGlass(element);
+      const domGlass = document.getElementById(element.glassId);
+      domGlass.style.top = '120px';
+      domGlass.style.left = '120px';
+    } else if(document.getElementById(element.glassId) != null) {
+      const glassDiv = document.getElementById(element.glassId);
+      const nodesArr = Array.prototype.slice.call(glassDiv.getElementsByTagName("*"),0);
+      nodesArr.forEach(item => {
+        if (item.innerHTML == element.letter) {
+          nodeExist = true;
+        };
+      });
+      if (nodeExist == false) {
+        appendInsideToGlass(element);
+      };
+      
+    };
+    
+    // domGlass.style.top = (card.cardLastPositionY) + 'px';
+    // domGlass.style.left = (card.cardLastPositionX) + 'px';
+  });
+
+  
+  
+
+  
+});
+
+
+
 sock.on('updateAllClientsWhenRefreshed', (data) => {
 
   data.forEach(card => {
-    if (document.getElementById(card.id) != null) { return };
-    createCardDivElement(card);
-    const domCard = document.getElementById(card.id);
+    if (document.getElementById(element.glassId) != null) { return };
+    createGlassDiv(card);
+    appendInsideToGlass(card);
+    const domCard = document.getElementById(card.glassId);
     domCard.style.top = (card.cardLastPositionY) + 'px';
     domCard.style.left = (card.cardLastPositionX) + 'px';
-
   });
 });
 
