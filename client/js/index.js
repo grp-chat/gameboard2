@@ -17,10 +17,23 @@ var isAndroid = ua.indexOf("android") > -1;
 
 const container = document.getElementById("container");
 
+const refreshButton = document.getElementById("refresh");
 const button = document.getElementById("add");
 const restart = document.getElementById("restart");
+// const lock = document.getElementById("lock");
 
 if (isAndroid) { document.body.style.touchAction = "none" };
+if (isAndroid) { document.getElementById("restart").style.visibility = "visible" };
+if (isAndroid) { document.getElementById("refresh").style.visibility = "visible" };
+// if (!isAndroid) { lock.style.visibility = "hidden" };
+
+// lock.addEventListener('click', () => {
+//   if (document.body.style.touchAction = "none") {
+//     document.body.style.touchAction = "auto";
+//   } else {
+//     document.body.style.touchAction = "none"
+//   }
+// });
 
 restart.addEventListener('click', () =>{
   if (loginName == "teacher") {
@@ -41,9 +54,15 @@ button.addEventListener('click', (e) => {
   }
 
 });
+refreshButton.addEventListener('click', ()=>{
+  sock.emit('sendRefresh');
+});
 
 // const glass = document.getElementById("glass");
 // glass.addEventListener('mousedown', mouseDown);
+const line = document.getElementById("line");
+line.addEventListener('mousedown', mouseDown);
+line.addEventListener('touchstart', touchStart);
 
 function createCardDivElement(obj) {
 
@@ -64,6 +83,7 @@ function createGlassDiv(obj) {
   container.appendChild(glass);
   glass.style.top = '60px';
   glass.addEventListener('mousedown', mouseDown);
+  glass.addEventListener('touchstart', touchStart);
 };
 
 function appendInsideToGlass(obj) {
@@ -210,13 +230,12 @@ function touchEnd(e) {
 
 sock.on('response', (data) => {
   loginName = data;
-  const refreshButton = document.getElementById("refresh");
+  
   if (loginName == "teacher") {
     refreshButton.style.visibility = "visible";
+    restart.style.visibility = "visible";
   }
-  refreshButton.addEventListener('click', ()=>{
-    sock.emit('sendRefresh');
-  });
+  
 });
 
 sock.on('updateAllClients', (data) => {
@@ -322,6 +341,7 @@ sock.on('removeDomOnOtherClient', data => {
 });
 
 sock.on('ifNeedRefresh', (data) => {
+  if (isAndroid) {return}
   if (data != loginName) {
     alert("refresh")
     window.location.reload();

@@ -95,6 +95,52 @@ body{
   left: 1200px;
 }
 
+.lock{
+  width: 30px;
+  height: 30px;
+  background-color: grey;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  position: fixed;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  top:20px;
+  left: 50px;
+}
+.vertical{
+  width: 2px;
+  height: 800px;
+  background-color: green;
+  /* color: white; */
+  border-radius: 5px;
+  cursor: pointer;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  top:125px;
+  left: 610px;
+}
+.horizontal{
+  width: 1000px;
+  height: 2px;
+  background-color: grey;
+  /* color: white; */
+  border-radius: 5px;
+  cursor: pointer;
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  top:120px;
+  left: 100px;
+}
 .restart{
   width: 30px;
   height: 30px;
@@ -108,8 +154,9 @@ body{
   align-items: center;
   justify-content: center;
   user-select: none;
-  top:20px;
-  left: 1300px;
+  top:650px;
+  left: 1200px;
+  visibility: hidden;
 }
 
 .refresh{

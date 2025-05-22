@@ -197,7 +197,7 @@ io.sockets.on('connection', (sock) => {
     io.emit('updateButton', charactersRemaining);
 
     sock.on('checkUser', (data) => {
-        if (data == 8) {
+        if (data == 3691382017) {
             const user = "teacher";
             sock.emit('response', user);
         };
@@ -252,8 +252,10 @@ io.sockets.on('connection', (sock) => {
 
     sock.on('createNewCards', () => {
 
+        
         const pack = new Pack();
         // io.emit('updateAllClientsWhenRefreshed', ELEMENT_LIST);
+        
         io.emit('renderGlassAndInsides', ELEMENT_LIST);
 
 
@@ -278,7 +280,16 @@ io.sockets.on('connection', (sock) => {
     });
 
     sock.on('clearAndShuffle', () => {
-        ELEMENT_LIST.splice(0, ELEMENT_LIST.length)
+        ELEMENT_LIST.splice(0, ELEMENT_LIST.length);
+        TAG_SET2.splice(0, TAG_SET2.length);
+        tag_SetIndex = 0;
+        charactersRemaining = TAG_SET.length - ELEMENT_LIST.length;
+        position = 30;
+        glassRunningNumber = ELEMENT_LIST.length;
+        tag_SetIndex = ELEMENT_LIST.length;
+        // runningNumber = 1;
+        // glassRunningNumber = 10000;
+
         const clearGame = JSON.stringify(ELEMENT_LIST);
         fs.writeFile('savegame.txt', clearGame, err => {
             if (err) {
@@ -296,6 +307,8 @@ io.sockets.on('connection', (sock) => {
             return;
             }
         });
+
+        TAG_SET2 = TAG_SET.slice();
 
 
 
