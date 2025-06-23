@@ -1,66 +1,66 @@
 
-const name1 = "KHAW";
-const name2 = "XIN";
-const name3 = "YU";
-const name4 = "LEE";
-const name5 = "SZE";
-const name6 = "KEI";
-const name7 = "TEE";
-const name8 = "XIAO";
-const name9 = "HUI";
-const name10 = "TERRA";
-const name11 = "WONG";
-const name12 = "ZI";
-const name13 = "XIN";
-const name14 = "CHEW";
-const name15 = "ZI";
-const name16 = "SON";
-const name17 = "ETHAN";
-const name18 = "WONG";
-const name19 = "KAI";
-const name20 = "AN";
-const name21 = "GOH";
-const name22 = "VIN";
-const name23 = "SHAWN";
-const name24 = "WAH";
-const name25 = "JUN";
-const name26 = "WEI";
-const name27 = "LEAN";
-const name28 = "XIN";
-const name29 = "YU";
-const name30 = "STELLA";
-const name31 = "LOW";
-const name32 = "ZHEN";
-const name33 = "YANG";
-const name34 = "CHAN";
-const name35 = "JIN";
-const name36 = "HAO";
-const name37 = "ADAM";
-const name38 = "JOSEPH";
-const name39 = "LEE";
-const name40 = "RUI";
-const name41 = "ZHONG";
-const name42 = "JOSHUA";
-const name43 = "LIEW";
+const name1 = "CHOO";
+const name2 = "RUO";
+const name3 = "QI";
+const name4 = "CAY";
+const name5 = "DEE";
+const name6 = "TAN";
+const name7 = "JIA";
+const name8 = "RUEY";
+const name9 = "ANT";
+const name10 = "HONY";
+const name11 = "YAP";
+const name12 = "WEI";
+const name13 = "XIAN";
+const name14 = "GOH";
+const name15 = "QIAN";
+const name16 = "YU";
+const name17 = "YEOH";
+const name18 = "YUIIN";
+const name19 = "YEOH";
+const name20 = "HUUEI";
+const name21 = "NOV";
+const name22 = "ELLE";
+const name23 = "TAN";
+const name24 = "ZI";
+const name25 = "RUEY";
+const name26 = "LIM";
+const name27 = "KAI";
+const name28 = "YING";
+const name29 = "NG";
+const name30 = "ZHI";
+const name31 = "QUAN";
+const name32 = "YEUN";
+const name33 = "YING";
+const name34 = "XIAO";
+const name35 = "YEOH";
+const name36 = "LER";
+const name37 = "WEI";
+const name38 = "TAN";
+const name39 = "MIN";
+const name40 = "EN";
+const name41 = "GOH";
+const name42 = "YU";
+const name43 = "THONH";
 const name44 = "YIK";
-const name45 = "LE";
-const name46 = "LEW";
-const name47 = "ZI";
+const name45 = "LEW";
+const name46 = "CHEONG";
+const name47 = "LOH";
 const name48 = "HAO";
 const name49 = "LIEW";
-const name50 = "YI";
-const name51 = "ZHEN";
-const name52 = "AIMAN";
-const name53 = "CHEAH";
-const name54 = "MHENG";
-const name55 = "CHEONG";
-const name56 = "RIZAN";
-const name57 = "ZAFFRI";
-const name58 = "MIN";
-const name59 = "TAN";
-const name60 = "ZHI";
-const name61 = "RUI";
-const name62 = "QI";
+const name50 = "MIKE";
+// const name51 = "ZHEN";
+// const name52 = "AIMAN";
+// const name53 = "CHEAH";
+// const name54 = "MHENG";
+// const name55 = "CHEONG";
+// const name56 = "RIZAN";
+// const name57 = "ZAFFRI";
+// const name58 = "MIN";
+// const name59 = "TAN";
+// const name60 = "ZHI";
+// const name61 = "RUI";
+// const name62 = "QI";
 
 
 const tag1 = [...name1];
@@ -113,18 +113,19 @@ const tag47 = [...name47];
 const tag48 = [...name48];
 const tag49 = [...name49];
 const tag50 = [...name50];
-const tag51 = [...name51];
-const tag52 = [...name52];
-const tag53 = [...name53];
-const tag54 = [...name54];
-const tag55 = [...name55];
-const tag56 = [...name56];
-const tag57 = [...name57];
-const tag58 = [...name58];
-const tag59 = [...name59];
-const tag60 = [...name60];
-const tag61 = [...name61];
-const tag62 = [...name62];
+// const tag51 = [...name51];
+// const tag52 = [...name52];
+// const tag53 = [...name53];
+// const tag54 = [...name54];
+// const tag55 = [...name55];
+// const tag56 = [...name56];
+// const tag57 = [...name57];
+// const tag58 = [...name58];
+// const tag59 = [...name59];
+// const tag60 = [...name60];
+// const tag61 = [...name61];
+// const tag62 = [...name62];
+
 
 const TAG_SET = [
     tag1, 
@@ -177,18 +178,18 @@ const TAG_SET = [
     tag48,
     tag49,
     tag50,
-    tag51,
-    tag52,
-    tag53,
-    tag54,
-    tag55,
-    tag56,
-    tag57,
-    tag58,
-    tag59,
-    tag60,
-    tag61,
-    tag62,
+    // tag51,
+    // tag52,
+    // tag53,
+    // tag54,
+    // tag55,
+    // tag56,
+    // tag57,
+    // tag58,
+    // tag59,
+    // tag60,
+    // tag61,
+    // tag62,
 ];
 
 module.exports = TAG_SET;
