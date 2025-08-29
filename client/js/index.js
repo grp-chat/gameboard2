@@ -129,6 +129,7 @@ function mouseDown(e) {
 function touchStart(e) {
   // e.preventdefault();
   // document.body.style.touchAction = "none";
+  if(loginName!=="teacher") {return};
   startX = e.targetTouches[0].pageX;
   startY = e.targetTouches[0].pageY;
   const divId = e.target.id;

@@ -197,7 +197,7 @@ io.sockets.on('connection', (sock) => {
     io.emit('updateButton', charactersRemaining);
 
     sock.on('checkUser', (data) => {
-        if (data == 3691382017) {
+        if (data == 8) {
             const user = "teacher";
             sock.emit('response', user);
         };
